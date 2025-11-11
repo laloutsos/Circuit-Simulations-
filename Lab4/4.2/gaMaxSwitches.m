@@ -81,11 +81,19 @@ for g = 1:numGenerations
 
     %% --- Create next generation ---
     newPopulation = cell(1, N);
-    for i = 1:N
+    newPopulation{1} = parent1;
+    newPopulation{2} = parent2;
+
+    for i = 3:N
         % Crossover
         if rand < crossoverRate
             point = randi([1, L]);
-            offspring = [parent1(1:point, :); parent2(point+1:end, :)];
+            if rand < 0.5
+                offspring = [parent1(1:point, :); parent2(point+1:end, :)];
+            else
+                offspring = [parent2(1:point, :); parent1(point+1:end, :)];
+            end
+            %offspring = [parent1(1:point, :); parent2(point+1:end, :)];
         else
             offspring = parent1;
         end
@@ -113,3 +121,4 @@ disp(bestWorkload);
 disp(['Best switching activity: ', num2str(bestScore)]);
 
 end
+
